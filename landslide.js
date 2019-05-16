@@ -27,8 +27,8 @@ const canvas = document.getElementById("game");
             y: initialY
         },
         vel: {
-            x: 1,
-            y: 0,
+            x: 0,
+            y: -5,
         },
         width: 22,
         height: 32,
@@ -65,9 +65,14 @@ const canvas = document.getElementById("game");
         if(guy.pos.x > canvas.width - guy.width / 2)
         {guy.pos.x = -4;}
         else if 
-        (guy.pos.x < -5){guy.pos.x = canvas.width - guy.width / 2 - 2;}
+        (guy.pos.x < -guy.width / 2){guy.pos.x = canvas.width - guy.width / 2 - 2;}
 
         guy.pos.x += guy.vel.x * dt;
+        guy.pos.y += guy.vel.y * dt;
+        if(guy.pos.y >= canvas.height - guy.height)
+        {guy.pos.y = canvas.height - guy.height;
+         guy.airborne = false;
+        }
     };
 
 
@@ -75,6 +80,12 @@ const canvas = document.getElementById("game");
     //39 = right arrow,  37 = left arrow
 
     const handleKeys = () => {
+        if(keys[38]){
+            if(!guy.airborne){
+            guy.vel.y = -8;
+            guy.airborne = true;
+            }
+        }
         if(keys[39]){
             if(guy.vel.x < guy.maxspeed){
                 guy.vel.x += 1;
@@ -86,8 +97,8 @@ const canvas = document.getElementById("game");
                 guy.vel.x -= 1;
             }
         }
-        
         guy.vel.x *= friction;
+        guy.vel.y += gravity;
     };
 
 
@@ -99,6 +110,7 @@ const canvas = document.getElementById("game");
     //main loop of game
     const update = (timestamp) => {       
         dt = (timestamp - end) / 10;
+
         ctx.fillStyle = bgcolor;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#000000';
