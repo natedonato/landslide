@@ -3,7 +3,6 @@ const canvas = document.getElementById("game");
     canvas.width = 640;
     canvas.height = 500;
     ctx = canvas.getContext("2d");
-    
 
 
     ///new game setup and properties
@@ -18,6 +17,8 @@ const canvas = document.getElementById("game");
     let keys = {};
     //for doublejump
     let tooSoon = false;
+    let currHeight = 0;
+    let maxHeight = 0;
 
 
     ctx.fillStyle = bgcolor;
@@ -66,6 +67,22 @@ const canvas = document.getElementById("game");
         ctx.rotate(guy.vel.x * 2 * Math.PI / 180);
         ctx.fillRect(-guy.width/2, -guy.height, guy.width, guy.height);
         ctx.restore();
+
+
+
+
+
+        //guy height stuff
+        currHeight = Math.floor((500 - guy.pos.y - guy.height)/10);
+        if(currHeight > maxHeight){
+        maxHeight = currHeight;
+        }
+        ctx.fillStyle= "#ffffff";
+        ctx.textAlign = "end"; 
+        ctx.font = "30px Arial";
+        ctx.fillText(maxHeight + ' ft', canvas.width - 10, 35);
+        ctx.font = "10px Arial";
+        ctx.fillText(currHeight + ' ft', canvas.width - 10 - 2, 50);
 
     };
 
@@ -134,15 +151,18 @@ const canvas = document.getElementById("game");
     const update = (timestamp) => {       
         dt = (timestamp - end) / 10;
 
+
+
         ctx.fillStyle = bgcolor;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#000000';
 
         updateGuyPos(dt);
-        console.log(guy.jumps);
         drawGuy();
-        end = timestamp;
 
+
+
+        end = timestamp;
         requestAnimationFrame(update);
     };
 
@@ -160,9 +180,6 @@ window.addEventListener("keyup", function(e) {
     keys[e.keyCode] = false;
     console.log(keys);
 });
-
-
-
 
 window.addEventListener("load", function () {
     update();
