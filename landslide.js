@@ -16,6 +16,9 @@ const canvas = document.getElementById("game");
     let friction = 0.85;
     let gravity = 0.3;
     let keys = {};
+    //for doublejump
+    let tooSoon = false;
+
 
     ctx.fillStyle = bgcolor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -33,6 +36,7 @@ const canvas = document.getElementById("game");
         width: 22,
         height: 32,
         maxspeed: guyspeed,
+        jumps: 0,
         airborne: true,
     };
 
@@ -51,8 +55,17 @@ const canvas = document.getElementById("game");
 
 
     const drawGuy = () => {
-        ctx.fillStyle = "#ff1919";
-        ctx.fillRect(guy.pos.x, guy.pos.y, guy.width, guy.height);
+                ctx.fillStyle = "#ff1919";
+
+         //ctx.fillRect(guy.pos.x, guy.pos.y, guy.width, guy.height);
+
+        //leans guy to side with x - velocity
+
+        ctx.save();
+        ctx.translate(guy.pos.x + guy.width / 2, guy.pos.y + guy.height);
+        ctx.rotate(guy.vel.x * 2 * Math.PI / 180);
+        ctx.fillRect(-guy.width/2, -guy.height, guy.width, guy.height);
+        ctx.restore();
 
     };
 
@@ -71,7 +84,8 @@ const canvas = document.getElementById("game");
         guy.pos.y += guy.vel.y * dt;
         if(guy.pos.y >= canvas.height - guy.height)
         {guy.pos.y = canvas.height - guy.height;
-         guy.airborne = false;
+        guy.jumps = 2;
+        guy.airborne = false;
         }
     };
 
@@ -81,11 +95,19 @@ const canvas = document.getElementById("game");
 
     const handleKeys = () => {
         if(keys[38]){
-            if(!guy.airborne){
+
+            if(guy.jumps > 0 && tooSoon === false){
+            tooSoon = true;
+            
+            if(guy.jumps === 2){
             guy.vel.y = -8;
+            }else{guy.vel.y = -6}
             guy.airborne = true;
+            guy.jumps -= 1;
+            setTimeout(()=> tooSoon = false, 300);
             }
         }
+
         if(keys[39]){
             if(guy.vel.x < guy.maxspeed){
                 guy.vel.x += 1;
@@ -97,6 +119,7 @@ const canvas = document.getElementById("game");
                 guy.vel.x -= 1;
             }
         }
+
         guy.vel.x *= friction;
         guy.vel.y += gravity;
     };
@@ -116,6 +139,7 @@ const canvas = document.getElementById("game");
         ctx.fillStyle = '#000000';
 
         updateGuyPos(dt);
+        console.log(guy.jumps);
         drawGuy();
         end = timestamp;
 
