@@ -20,6 +20,7 @@ const canvas = document.getElementById("game");
     let maxHeight = 0;
     let offset = 0;
     let maxrockHeight = 0;
+    let rockspeed = 2;
 
     let guy = {
         pos: {
@@ -113,7 +114,6 @@ const canvas = document.getElementById("game");
     };
 
 
-
     //moving stuff
     const updatePos = (dt) => {
         if(isNaN(dt)){
@@ -123,9 +123,11 @@ const canvas = document.getElementById("game");
         handleKeys();
         updateGuyPos(dt);
         updateRockPos(dt);
+  
     };
 
     const updateGuyPos = (dt) => {
+
         //wraparound
         if(guy.pos.x > canvas.width - guy.width / 2)
         {guy.pos.x = -4;}
@@ -134,6 +136,7 @@ const canvas = document.getElementById("game");
 
         guy.pos.x += guy.vel.x * dt;
         guy.pos.y += guy.vel.y * dt;
+
 
         if(guy.pos.y >= canvas.height - guy.height)
         {guy.pos.y = canvas.height - guy.height;
@@ -147,21 +150,28 @@ const canvas = document.getElementById("game");
 
     };
 
+
+
+
+
+
+
+
     const updateRockPos = (dt) => {
         rocks.forEach( rock => {
             if(rock.falling){
-                rock.pos.y += 2 * dt;
+                rock.pos.y += rockspeed * dt;
                 if(rock.pos.y + rock.height >= canvas.height){
                     rock.pos.y = canvas.height - rock.height;
                     rock.falling = false;
                     maxrockHeight = rock.pos.y;
                 }
-
                 rocks.forEach (rock2 => {
                     if(rock2 !== rock)
                     checkRockCollision(rock, rock2);
                 });
             }
+            checkPlayerCollision(rock);
         });
     };
 
@@ -177,6 +187,68 @@ const canvas = document.getElementById("game");
             }   
     };
 
+
+    //vector collision code based on somethinghitme.com example
+    const checkPlayerCollision = (rock) => {
+        let collisionSide = "none";
+        let vectorx = (guy.pos.x + (guy.width / 2)) - (rock.pos.x + (rock.width / 2));
+        let vectory = (guy.pos.y + (guy.height / 2)) - (rock.pos.y + (rock.height / 2));
+            avectorx = Math.abs(vectorx);
+            avectory = Math.abs(vectory);
+
+        //can't be closer than half of each width
+        let minwidth = (guy.width / 2) + (rock.width / 2);
+        let minheight = (guy.height / 2) + (rock.height / 2);
+
+        if(avectorx < minwidth && avectory < minheight){
+            let offsetx = minwidth - avectorx;
+            let offsety = minheight - avectory;
+            let xcollisiontime;
+            let ycollisiontime;
+
+            xcollisiontime = (offsetx / Math.abs(guy.vel.x));
+            ycollisiontime = (offsety / Math.abs(guy.vel.y));
+
+
+            if(ycollisiontime < xcollisiontime){
+                if(vectory < 0){
+                    collisionSide = "top";
+                    guy.pos.y -= offsety;
+                    if(rock.falling){
+                        guy.vel.y = rockspeed;}
+                    else{
+                        guy.vel.y = 0;
+                    }
+                    guy.airborne = false;
+                    guy.jumps = 2;
+                    }
+                
+                else{
+                    collisionSide = "bottom";
+                    if(guy.airborne === false){
+                        console.log("YOU DEAD");
+                    }
+                    if(guy.pos.y + offsety >= canvas.height - guy.height)
+                        {guy.pos.y = canvas.height - guy.height;}
+                    else{
+                        guy.pos.y += offsety;
+                        guy.vel.y = -guy.vel.y;
+                    }
+                }
+            }
+        else{
+            if(vectorx > 0){
+                collisionSide = "right";
+                guy.pos.x += offsetx;
+            }
+            else{
+                collisionSide = "left";
+                guy.pos.x -= offsetx;
+                }
+            }
+        };
+        return collisionSide;
+    };
 
 
     //39 = right arrow,  37 = left arrow, 38 = up arrow
@@ -222,6 +294,9 @@ const canvas = document.getElementById("game");
         ctx.save();
         offset = currHeight - 190;
         ctx.translate(0, offset);
+
+
+
         ctx.clearRect(0, 0 - offset, canvas.width, canvas.height);
         ctx.fillStyle = bgcolor;
         ctx.fillRect(0, 0 - offset, canvas.width, canvas.height);
