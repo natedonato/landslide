@@ -147,6 +147,9 @@ const canvas = document.getElementById("game");
         //guy height stuff
         currHeight = (500 - guy.pos.y - guy.height);
         if(currHeight > maxHeight){maxHeight = currHeight;}
+        if(currHeight + canvas.height > maxrockHeight){
+            maxrockHeight = currHeight + canvas.height;
+        }
 
     };
 
@@ -164,7 +167,6 @@ const canvas = document.getElementById("game");
                 if(rock.pos.y + rock.height >= canvas.height){
                     rock.pos.y = canvas.height - rock.height;
                     rock.falling = false;
-                    maxrockHeight = rock.pos.y;
                 }
                 rocks.forEach (rock2 => {
                     if(rock2 !== rock)
@@ -184,6 +186,9 @@ const canvas = document.getElementById("game");
                 //collision has occured
                 rock1.falling = false;
                 rock2.falling = false;
+                if( canvas.height - rock1.pos.y > maxrockHeight){
+                maxrockHeight = canvas.height - rock1.pos.y;
+                }
             }   
     };
 
