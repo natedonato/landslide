@@ -126,7 +126,6 @@ class GameView{
             this.colorChangeCurrent += this.colorChangeHeight;
             let hue = Math.random()*290 + 20;
             this.bgcolor = 'hsl(' + hue + ',100%, 50%)';
-            console.log(this.bgcolor);
             this.rockcolor === 'white' ? this.rockcolor = 'black' : this.rockcolor = 'white';
         }
 
@@ -140,14 +139,17 @@ class GameView{
         this.ctx.fillStyle = this.bgcolor;
         this.ctx.fillRect(0, 0 - offset, this.canvaswidth, this.canvasheight);
 
+       
+        this.drawRocks();
+        this.drawGuy(offset);
+        this.drawWater();
+
+
         //adds floor
         this.ctx.fillStyle = '#000000';
         this.ctx.fillRect(0, this.canvasheight, this.canvaswidth * 2 / 3, 500);
         this.ctx.fillRect(this.canvaswidth * 2 / 3 + 5, this.canvasheight, this.canvaswidth * 1 / 3, 500);
 
-        this.drawRocks();
-        this.drawGuy(offset);
-        this.drawWater();
         this.ctx.restore();
     }
 
