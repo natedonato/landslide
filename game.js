@@ -18,6 +18,13 @@ class Game {
         this.rockInterval = 2000;
         this.rockspeed = 2;
 
+        //water related options can be set here
+        this.water = {x: 0, 
+            y: canvasheight + 800, 
+            w : canvaswidth, 
+            h: canvasheight + 800, 
+            speed: 0.5};
+
         //canvas & height related variables
         this.canvasheight = canvasheight;
         this.canvaswidth = canvaswidth;
@@ -31,10 +38,11 @@ class Game {
     reset(){
         this.rocks = [];
         this.maxrockheight = 0;
-        this.currHeight = 0;
+        this.currHeight = 190;
         this.maxHeight = 0;
         this.lastRock = 0;
         this.guy = new Guy(this.canvasheight, this.canvaswidth, this.guyspeed);
+        this.water.y = this.canvasheight + 500;
         return this.guy;
     }
 
@@ -67,7 +75,6 @@ class Game {
     }
 
     checkPlayerCollision(rock) {
-
         let collisionSide = "none";
         let vectorx = (this.guy.pos.x + (this.guy.width / 2)) - (rock.pos.x + (rock.width / 2));
         let vectory = (this.guy.pos.y + (this.guy.height / 2)) - (rock.pos.y + (rock.height / 2));
@@ -117,18 +124,30 @@ class Game {
                 }
             }
             else {
-           
                 if (vectorx > 0) {
                     collisionSide = "right";
                     this.guy.pos.x += offsetx;
+                    this.guy.wallcling = 1;
                 }
                 else {
                     collisionSide = "left";
                     this.guy.pos.x -= offsetx;
+                    this.guy.wallcling = -1;
                 }
             }
         }
         return collisionSide;
+    }
+
+    checkWaterCollision(){
+        if(this.guy.pos.y + this.guy.height > this.water.y){
+            this.guy.dead = true;
+        }
+    }
+
+    updateWaterPos(dt){
+        this.water.y -= this.water.speed * dt;
+        this.checkWaterCollision();
     }
 
     updateRockPos(dt) {
@@ -147,14 +166,18 @@ class Game {
             this.checkPlayerCollision(rock);
         });
     }
-
+ 
 
     updateGuyPos(dt){
         //applies friction and gravity to guys velocities
         this.guy.vel.x *= this.friction;
         this.guy.vel.y += this.gravity;
+        if(this.guy.wallcling !== 0 && this.guy.vel.y > 0){
+            this.guy.vel.y -= this.gravity / 2;
+        }
         if(this.guy.vel.y > this.gravity + 1){
             this.guy.airborne = true;
+            this.guy.jumps = 0;
         }
 
         //screen wraparound for guy
@@ -179,6 +202,7 @@ class Game {
         if (this.currHeight + this.canvasheight > this.maxrockheight) {
             this.maxrockheight = this.currHeight + this.canvasheight;
         }
+        this.guy.wallcling = 0;
     }
 
 
@@ -189,6 +213,7 @@ class Game {
         }
         this.updateGuyPos(dt);
         this.updateRockPos(dt);
+        this.updateWaterPos(dt);
     }
 
     step(timestamp, dt) {

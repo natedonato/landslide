@@ -7,6 +7,8 @@ class GameView{
         this.canvasheight = canvasheight;
         this.canvaswidth = canvaswidth;
         this.lastUpdated = 0;
+        this.water = game.water;
+        
 
         //for throttling key presses
         this.tooSoon = false;
@@ -15,8 +17,11 @@ class GameView{
         this.bgcolor = '#FFA500';
         this.rockcolor = '#000000';
         this.playercolor = "#ff1919";
+        this.watercolor = 'blue';
+        this.colorChangeHeight = 300;
 
         //initial background fill
+        this.colorChangeCurrent = this.colorChangeHeight;
         this.ctx.fillStyle = this.bgcolor;
         this.ctx.fillRect(0, 0, this.game.canvaswidth, this.game.canvasheight);
     }
@@ -36,14 +41,20 @@ class GameView{
 
     handleKeys (){
         if (this.keys[38]) {
-            if (this.guy.jumps > 0 && this.tooSoon === false) {
+            if (this.guy.wallcling !== 0 && this.guy.airborne === true && this.tooSoon === false){
+                this.tooSoon = true;
+                this.guy.vel.y = -8;
+                this.guy.vel.x = this.guy.wallcling * 6;
+                setTimeout(() => this.tooSoon = false, 300);
+            }
+            else if (this.guy.jumps > 0 && this.tooSoon === false) {
                 this.tooSoon = true;
 
                 if (this.guy.jumps === 2) {
                     this.guy.vel.y = -8;
                 } else { this.guy.vel.y = -6; }
                 this.guy.airborne = true;
-                this.guy.jumps -= 1;
+                this.guy.jumps -= 2;
                 setTimeout(() => this.tooSoon = false, 300);
             }
         }
@@ -66,7 +77,8 @@ class GameView{
 
     reset(){
         this.guy = this.game.reset();
-
+        this.colorChangeCurrent = this.colorChangeHeight;
+        this.bgcolor = '#FFA500';
     }
 
 
@@ -99,7 +111,25 @@ class GameView{
         );
     };
 
+    drawWater(){
+        this.ctx.globalAlpha = 0.5;
+        this.ctx.fillStyle = this.watercolor;
+        this.ctx.fillRect(this.water.x, this.water.y, this.water.w, this.water.h);
+        this.ctx.globalAlpha = 1.0;
+    }
+
     draw(){
+
+
+
+        if(this.game.maxHeight > this.colorChangeCurrent){
+            this.colorChangeCurrent += this.colorChangeHeight;
+            let hue = Math.random()*290 + 20;
+            this.bgcolor = 'hsl(' + hue + ',100%, 50%)';
+            console.log(this.bgcolor);
+            this.rockcolor === 'white' ? this.rockcolor = 'black' : this.rockcolor = 'white';
+        }
+
         //moves "camera" with current player
         this.ctx.save();
         let offset = this.game.currHeight - 190;
@@ -117,6 +147,7 @@ class GameView{
 
         this.drawRocks();
         this.drawGuy(offset);
+        this.drawWater();
         this.ctx.restore();
     }
 
@@ -124,6 +155,7 @@ class GameView{
         this.bindkeys();
         this.update(0);
     }
+
 
     update(timestamp) {
         const dt = (timestamp - this.lastUpdated) / 10;

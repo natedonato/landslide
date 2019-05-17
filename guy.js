@@ -17,6 +17,7 @@ class Guy{
         this.jumps = 0;
         this.airborne = true;
         this.dead = false;
+        this.wallcling = 0;
     }
 }
 
