@@ -28,6 +28,17 @@ class Game {
         this.rocks = [];
     }
 
+    reset(){
+        this.rocks = [];
+        this.maxrockheight = 0;
+        this.currHeight = 0;
+        this.maxHeight = 0;
+        this.lastRock = 0;
+        this.guy = new Guy(this.canvasheight, this.canvaswidth, this.guyspeed);
+        return this.guy;
+    }
+
+
     addRock(rock){
         this.rocks.push(rock);
     }
@@ -66,25 +77,26 @@ class Game {
         let minwidth = (this.guy.width / 2) + (rock.width / 2);
         let minheight = (this.guy.height / 2) + (rock.height / 2);
 
+
         if (avectorx < minwidth && avectory < minheight) {
             let offsetx = minwidth - avectorx;
             let offsety = minheight - avectory;
             let xcollisiontime;
             let ycollisiontime;
             //calculates whether we hit the side first or the top or bottom first
-            xcollisiontime = (offsetx / Math.abs(this.guy.vel.x));
-            ycollisiontime = (offsety / Math.abs(this.guy.vel.y));
+            xcollisiontime = Math.abs((offsetx / this.guy.vel.x));
+            ycollisiontime = Math.abs((offsety / this.guy.vel.y));
+            if (ycollisiontime < xcollisiontime || (this.guy.vel.y === 0 && this.guy.airborne === false)) {
+                if (vectory <= 0) {
 
-            if (ycollisiontime < xcollisiontime) {
-                if (vectory < 0) {
-                    //et him coast on top of falling rock and reset jumps
+                    //let him coast on top of falling rock and reset jumps
                     collisionSide = "top";
                     this.guy.pos.y -= offsety;
                     if (rock.falling) {
                         this.guy.vel.y = this.rockspeed;
                     }
                     else {
-                        this.guy.vel.y = 0;
+                        this.guy.vel.y = 1;
                     }
                     this.guy.airborne = false;
                     this.guy.jumps = 2;
@@ -92,8 +104,9 @@ class Game {
 
                 else {
                     collisionSide = "bottom";
-                    //crush dude
+                
                     if (!this.guy.airborne && rock.falling) {
+                        console.log("dead");
                         this.guy.dead = true;
                     }
                     if (this.guy.pos.y + offsety >= this.canvasheight - this.guy.height) { this.guy.pos.y = this.canvasheight - this.guy.height; }
@@ -104,6 +117,7 @@ class Game {
                 }
             }
             else {
+           
                 if (vectorx > 0) {
                     collisionSide = "right";
                     this.guy.pos.x += offsetx;
@@ -139,6 +153,9 @@ class Game {
         //applies friction and gravity to guys velocities
         this.guy.vel.x *= this.friction;
         this.guy.vel.y += this.gravity;
+        if(this.guy.vel.y > this.gravity + 1){
+            this.guy.airborne = true;
+        }
 
         //screen wraparound for guy
         if (this.guy.pos.x > this.canvaswidth - this.guy.width / 2) { this.guy.pos.x = -4; }

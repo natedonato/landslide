@@ -59,6 +59,14 @@ class GameView{
                 this.guy.vel.x -= 1;
             }
         }
+        if (this.keys[13]){
+            this.reset();
+        }
+    }
+
+    reset(){
+        this.guy = this.game.reset();
+
     }
 
 
@@ -122,7 +130,7 @@ class GameView{
         this.handleKeys();
         this.game.step(timestamp, dt);
         if(this.guy.dead){
-                //something when hes dead
+                this.reset();
         }
         this.draw();
         this.lastUpdated = timestamp;
