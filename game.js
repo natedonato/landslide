@@ -14,16 +14,16 @@ class Game {
         this.minSize = 80;
         this.maxSize = 180;
         this.maxX = canvaswidth;
-        this.lastRock = 0;
-        this.rockInterval = 2000;
-        this.rockspeed = 2;
+        this.rockInterval = 1000;
+        this.lastRock = this.rockInterval;
+        this.rockspeed = 2.3;
 
         //water related options can be set here
         this.water = {x: 0, 
-            y: canvasheight + 800, 
+            y: canvasheight + 600, 
             w : canvaswidth, 
-            h: canvasheight + 800, 
-            speed: 0.5};
+            h: canvasheight + 600, 
+            speed: 0.62};
 
         //canvas & height related variables
         this.canvasheight = canvasheight;
@@ -119,7 +119,7 @@ class Game {
                     if (this.guy.pos.y + offsety >= this.canvasheight - this.guy.height) { this.guy.pos.y = this.canvasheight - this.guy.height; }
                     else {
                         this.guy.pos.y += offsety;
-                        this.guy.vel.y = -this.guy.vel.y;
+                        this.guy.vel.y = this.rockspeed;
                     }
                 }
             }
