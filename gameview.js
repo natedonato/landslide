@@ -19,6 +19,7 @@ class GameView{
         this.colorSound.volume = 0.4;
         this.bgm = new Audio('./soundfx/Fantasies_of_Yonder.mp3');
         this.bgm.volume = 0.35;
+        this.bgm.loop = true;
 
         //for throttling key presses
         this.tooSoon = false;
