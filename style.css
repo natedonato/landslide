@@ -1,15 +1,34 @@
 
 html, body {
   height: 100%;
+  width: 100%;
   margin: 0;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
 }
 
 .full-height {
   height: 100%;
-
-  background: grey;
+  width: 100%;
+  background-color: grey;
+  background-image: url('./backgroundsquares.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.full-height2{
+  height: 100%;
+  width: 100%;
+  background: grey;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  text-align: center;
+  font-size: 50px;
+  color: white;
 }

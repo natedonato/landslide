@@ -16,7 +16,7 @@ class GameView{
         this.crushSound = new Audio ('./soundfx/crushed.wav');
         this.crushSound.volume = 0.3;
         this.colorSound = new Audio ('./soundfx/colorshift.wav');
-        this.colorSound.volume = 0.4;
+        this.colorSound.volume = 0.35;
         this.bgm = new Audio('./soundfx/Fantasies_of_Yonder.mp3');
         this.bgm.volume = 0.35;
         this.bgm.loop = true;
