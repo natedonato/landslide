@@ -184,7 +184,7 @@ class Game {
         this.guy.vel.x *= this.friction;
         this.guy.vel.y += this.gravity;
         if(this.guy.wallcling !== 0 && this.guy.vel.y > 0){
-            this.guy.vel.y -= this.gravity / 2;
+            this.guy.vel.y -= this.gravity * 2 / 3;
         }
         if(this.guy.vel.y > this.gravity + 1){
             this.guy.airborne = true;

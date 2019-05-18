@@ -133,10 +133,34 @@ class GameView{
         if(!this.guy.dead){
         this.ctx.fillStyle = this.playercolor;
         //leans guy to side with x - velocity
+
+
         this.ctx.save();
-        this.ctx.translate(this.guy.pos.x + this.guy.width / 2, this.guy.pos.y + this.guy.height);
+        this.ctx.translate(this.guy.pos.x + this.guy.width / 2 - this.guy.wallcling *4, this.guy.pos.y + this.guy.height);
+
+
+        if(this.guy.wallcling === 0){
         this.ctx.rotate(this.guy.vel.x * 2 * Math.PI / 180);
-        this.ctx.fillRect(-this.guy.width / 2, -this.guy.height, this.guy.width, this.guy.height);
+        } else {
+            this.ctx.rotate(this.guy.wallcling * 12 * Math.PI / 180);
+}
+
+
+
+
+
+        let w = this.guy.width;
+        let h = this.guy.height;
+        if(this.guy.airborne){
+            let scale = this.guy.vel.y;
+            if (scale > 6) {scale = 6;}
+            h -= scale;
+           
+            if (scale > 2) { scale = 2; }
+            w += scale;
+        }
+
+        this.ctx.fillRect(-w / 2, -h, w, h);
         this.ctx.restore();
 
         this.ctx.fillStyle = "#ffffff";
