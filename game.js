@@ -183,9 +183,11 @@ class Game {
         //applies friction and gravity to guys velocities
         this.guy.vel.x *= this.friction;
         this.guy.vel.y += this.gravity;
+
         if(this.guy.wallcling !== 0 && this.guy.vel.y > 0){
             this.guy.vel.y -= this.gravity * 2 / 3;
         }
+
         if(this.guy.vel.y > this.gravity + 1){
             this.guy.airborne = true;
             this.guy.jumps = 0;
@@ -204,6 +206,7 @@ class Game {
             this.guy.pos.y = this.canvasheight - this.guy.height;
             this.guy.jumps = 2;
             this.guy.airborne = false;
+            this.guy.vel.y = 1;
         }
 
         //keeps track of current height and max height
