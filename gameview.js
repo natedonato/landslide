@@ -8,10 +8,21 @@ class GameView{
         this.canvaswidth = canvaswidth;
         this.lastUpdated = 0;
         this.water = game.water;
-        
+        this.jumpSound = new Audio('./soundfx/jump1.wav');
+        this.jumpSound.volume = 0.2;
+        this.jumpSound2 = new Audio('./soundfx/jump2.wav');
+        this.jumpSound2.volume = 0.3;
+        this.waterSound = new Audio('./soundfx/drowned.wav');
+        this.crushSound = new Audio ('./soundfx/crushed.wav');
+        this.crushSound.volume = 0.3;
+        this.colorSound = new Audio ('./soundfx/colorshift.wav');
+        this.colorSound.volume = 0.4;
+        this.bgm = new Audio('./soundfx/Fantasies_of_Yonder.mp3');
+        this.bgm.volume = 0.35;
 
         //for throttling key presses
         this.tooSoon = false;
+        this.tooSoonMute = false;
 
         //color options
         this.bgcolor = '#FFA500';
@@ -29,60 +40,96 @@ class GameView{
     bindkeys(){
         let gameview = this;
         window.addEventListener("keydown", function (e) {
-        e.preventDefault();
-        gameview.keys[e.keyCode] = true;
-    });
+            e.preventDefault();
+            gameview.keys[e.keyCode] = true;
+        });
+        window.addEventListener("keyup", function (e) {
+            gameview.keys[e.keyCode] = false;
+        });
+    }
 
-    window.addEventListener("keyup", function (e) {
-        gameview.keys[e.keyCode] = false;
-    });
+    jump(){
+        if (this.guy.wallcling !== 0 && this.guy.airborne === true && this.tooSoon === false) {
 
+            this.jumpSound2.play();
+            this.tooSoon = true;
+            
+            this.guy.vel.y = -8;
+            this.guy.vel.x = this.guy.wallcling * 6;
+            setTimeout(() => this.tooSoon = false, 300);
+        }
+        else if (this.guy.jumps > 0 && this.tooSoon === false) {
+            this.jumpSound.play();
+            this.tooSoon = true;
+
+            if (this.guy.jumps === 2) {
+                this.guy.vel.y = -8;
+            } else { this.guy.vel.y = -6; }
+            this.guy.airborne = true;
+            this.guy.jumps -= 2;
+            setTimeout(() => this.tooSoon = false, 300);
+        }  
+    }
+
+    moveRight(){
+        if (this.guy.vel.x < this.guy.maxspeed) {
+            this.guy.vel.x += 1;
+        }
+    }
+
+    moveLeft(){
+        if (this.guy.vel.x > -this.guy.maxspeed) {
+            this.guy.vel.x -= 1;
+        }
     }
 
     handleKeys (){
-        if (this.keys[38]) {
-            if (this.guy.wallcling !== 0 && this.guy.airborne === true && this.tooSoon === false){
-                this.tooSoon = true;
-                this.guy.vel.y = -8;
-                this.guy.vel.x = this.guy.wallcling * 6;
-                setTimeout(() => this.tooSoon = false, 300);
-            }
-            else if (this.guy.jumps > 0 && this.tooSoon === false) {
-                this.tooSoon = true;
-
-                if (this.guy.jumps === 2) {
-                    this.guy.vel.y = -8;
-                } else { this.guy.vel.y = -6; }
-                this.guy.airborne = true;
-                this.guy.jumps -= 2;
-                setTimeout(() => this.tooSoon = false, 300);
-            }
+        if (this.keys[38] || this.keys[32]) {   
+            this.jump();
         }
 
         if (this.keys[39]) {
-            if (this.guy.vel.x < this.guy.maxspeed) {
-                this.guy.vel.x += 1;
-            }
+            this.moveRight();
         }
 
         if (this.keys[37]) {
-            if (this.guy.vel.x > -this.guy.maxspeed) {
-                this.guy.vel.x -= 1;
-            }
+            this.moveLeft();
         }
+
         if (this.keys[13]){
             this.reset();
+        }
+        if(this.keys[77]){
+            if(this.tooSoonMute === false){
+
+            this.tooSoonMute = true;
+            if(this.bgm.volume === 0.35)
+                 {this.bgm.volume = 0;
+                 this.bgm.pause();}
+            else{(this.bgm.volume = 0.35);
+            this.bgm.play();}
+
+            setTimeout(() => this.tooSoonMute = false, 300);}
         }
     }
 
     reset(){
+        // this.bgm.stop();
+        this.gameEndHeight = this.maxHeight;
+        if(this.guy.dead === "drowned"){
+            this.waterSound.play();
+        }else if(this.guy.dead === "crushed"){this.crushSound.play();}
+
         this.guy = this.game.reset();
         this.colorChangeCurrent = this.colorChangeHeight;
         this.bgcolor = '#FFA500';
+        this.bgm.currentTime = 0;
+        this.bgm.play();
     }
 
 
     drawGuy(offset){
+        if(!this.guy.dead){
         this.ctx.fillStyle = this.playercolor;
         //leans guy to side with x - velocity
         this.ctx.save();
@@ -97,6 +144,7 @@ class GameView{
         this.ctx.fillText(Math.floor(this.game.maxHeight / 10) + ' ft', this.canvaswidth - 10, 35 - offset);
         this.ctx.font = "10px Arial";
         this.ctx.fillText(Math.floor(this.game.currHeight / 10) + ' ft', this.canvaswidth - 10 - 2, 50 - offset);
+        }
     }
 
     drawRocks(){
@@ -123,6 +171,7 @@ class GameView{
 
 
         if(this.game.maxHeight > this.colorChangeCurrent){
+            this.colorSound.play();
             this.colorChangeCurrent += this.colorChangeHeight;
             let hue = Math.random()*290 + 20;
             this.bgcolor = 'hsl(' + hue + ',100%, 50%)';
@@ -141,8 +190,8 @@ class GameView{
 
        
         this.drawRocks();
-        this.drawGuy(offset);
         this.drawWater();
+        this.drawGuy(offset);
 
 
         //adds floor
@@ -155,6 +204,7 @@ class GameView{
 
     start(){
         this.bindkeys();
+        this.bgm.play();
         this.update(0);
     }
 
@@ -164,6 +214,7 @@ class GameView{
         this.handleKeys();
         this.game.step(timestamp, dt);
         if(this.guy.dead){
+                this.bgm.pause();
                 this.reset();
         }
         this.draw();
