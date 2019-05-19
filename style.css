@@ -58,8 +58,6 @@ html, body {
   height: 100%;
   display: flex;
   flex-wrap: nowrap;
-  flex-direction: row-reverse;
-  
 }
 
 #jump-button{
@@ -69,7 +67,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-right: 10px;
+  padding: 0px 5px;
 }
 
 .jump-display{
@@ -77,6 +75,14 @@ html, body {
   padding-bottom: 100%;
   border-radius: 100%;
   background-color: red;
+  border: 1px solid white;
+  position: relative;
+}
+
+.left-display{
+  width: 100%;
+  padding-bottom: 100%;
+  background-color: aqua;
   border: 1px solid white;
   position: relative;
 }
@@ -97,5 +103,18 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-right: 10px;
+  padding: 0px 5px;
+  position: relative;
+  
+}
+
+#right{  
+  width: calc(100% / 3);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 5px;
+  position: relative;
 }

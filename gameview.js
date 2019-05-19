@@ -58,6 +58,7 @@ class GameView{
                 gameview.keys.jump = true;
             });
             let left = document.getElementById('left');
+            let right = document.getElementById('right');
             left.addEventListener("touchstart", (e) => {
                 e.preventDefault();
                 gameview.keys[37] = true;
@@ -65,6 +66,14 @@ class GameView{
             left.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 gameview.keys[37] = false;
+            });
+            right.addEventListener("touchstart", (e) => {
+                e.preventDefault();
+                gameview.keys[39] = true;
+            });
+            right.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                gameview.keys[39] = false;
             });
             
         }
