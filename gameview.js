@@ -39,7 +39,9 @@ class GameView{
     }
 
     bindkeys(){
+
         let gameview = this;
+
         window.addEventListener("keydown", function (e) {
             e.preventDefault();
             gameview.keys[e.keyCode] = true;
@@ -47,6 +49,17 @@ class GameView{
         window.addEventListener("keyup", function (e) {
             gameview.keys[e.keyCode] = false;
         });
+
+
+        let jumpbutton = document.getElementById('jump-button');
+        if (jumpbutton !== null) {
+            jumpbutton.addEventListener("touchstart", () => {
+                gameview.keys[32] = true;
+            });
+            jumpbutton.addEventListener("touchend", () => {
+                gameview.keys[32] = false;
+            });
+        }
     }
 
     jump(){

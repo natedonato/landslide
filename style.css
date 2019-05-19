@@ -22,6 +22,20 @@ html, body {
   flex-direction: column;
 }
 
+
+.mobile-height {
+  width: 100%;
+  background-color: grey;
+  background-image: url('./backgroundsquares.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: space;
+  flex-direction: column;
+}
+
 .full-height2{
   height: 100%;
   width: 100%;
