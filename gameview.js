@@ -91,14 +91,16 @@ class GameView{
 
             let left = document.getElementById('left');
             let right = document.getElementById('right');
+
             left.addEventListener("touchstart", (e) => {
                 e.preventDefault();
                 gameview.keys[37] = true;
             });
 
             let leftx = left.getClientRects()[0].right;
+
             left.addEventListener('touchmove', (e) => {
-                let touchCurrentL = e.changedTouches[0].clientX;
+                let touchCurrentL = Math.min(Object.values(e.changedTouches).map(e => e.clientX));
                 if (touchCurrentL > leftx) {
                     gameview.keys[37] = false;
                 }
@@ -111,7 +113,8 @@ class GameView{
             });
 
             let rightx = right.getClientRects()[0].left;
-            right.addEventListener("touchstart", (e) => {   
+
+            right.addEventListener("touchstart", (e) => {  
                 // touchStartR = e.changedTouches[0].clientX;
                 e.preventDefault();
                 gameview.keys[39] = true;
@@ -119,7 +122,9 @@ class GameView{
 
             right.addEventListener('touchmove', (e) => {
                 let touchCurrentR = e.changedTouches[0].clientX;
+                
                 if (touchCurrentR < rightx ) {
+
                     gameview.keys[39] = false;
                 }
             });
