@@ -67,10 +67,20 @@ class GameView{
                 e.preventDefault();
                 gameview.keys[37] = false;
             });
+            let touchStartR;
             right.addEventListener("touchstart", (e) => {
+                touchStartR = e.originalEvent.touches[0].clientx;
                 e.preventDefault();
                 gameview.keys[39] = true;
             });
+
+            right.addEventListener('touchmove', (e) => {
+                letttouchCurrentR = e.originalEvent.changedTouches[0].clientX;
+                if (touchCurrentR < touchStartR - 30) {
+                    gameview.keys[39] = false;
+                }
+            });
+
             right.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 gameview.keys[39] = false;
