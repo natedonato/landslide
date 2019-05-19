@@ -61,7 +61,7 @@ class GameView{
             
             let joypad = document.getElementById('joypad');
             let touchStartX;
-            
+
             joypad.addEventListener("touchstart", (e) => {   
                 touchStartX = e.changedTouches[0].clientX;
                 e.preventDefault();
@@ -69,10 +69,10 @@ class GameView{
 
             joypad.addEventListener('touchmove', (e) => {
                 let touchCurrentX = e.changedTouches[0].clientX;
-                if (touchCurrentX < touchStartX - 30 ) {
+                if (touchCurrentX < touchStartX - 10 ) {
                     gameview.keys[39] = false;
                     gameview.keys[37] = true;
-                } else if (touchCurrentX > touchStartX + 30 ){
+                } else if (touchCurrentX > touchStartX + 10 ){
                     gameview.keys[39] = true;
                     gameview.keys[37] = false; 
                 } else{
