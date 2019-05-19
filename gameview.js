@@ -1,6 +1,7 @@
 class GameView{
     constructor(game, ctx, canvasheight, canvaswidth){
         this.game = game;
+        this.paused = true;
         this.ctx = ctx;
         this.guy = game.guy;
         this.keys = {};
@@ -136,9 +137,33 @@ class GameView{
                 gameview.keys[39] = false;
                 gameview.keys[37] = false;
             });
-    
         }
     }
+
+    openMenu() {
+        this.paused = true;
+        const canvas = document.getElementById("game");
+        const menu = document.getElementById("menu");
+        canvas.style.display = "none";
+        menu.style.display = "flex";
+        const height = document.getElementById("height");
+        const deathinfo = document.getElementById("death-info");
+        height.innerHTML = String(this.gameEndHeight) + ' ft';
+        if(this.guy.dead === "crushed"){
+            deathinfo.innerHTML = "(then you were crushed by a falling block)";
+        }else if(this.guy.dead === "drowned"){
+            deathinfo.innerHTML = "(then you fell into the water and drowned)";
+        }
+    }
+
+    closeMenu(){
+        const canvas = document.getElementById("game");
+        const menu = document.getElementById("menu");
+        menu.style.display = "none";
+        canvas.style.display = "block";
+        this.paused = false;
+    }
+
 
     jump(){
         if (this.guy.wallcling !== 0 && this.guy.airborne === true && this.tooSoon === false) {
@@ -210,18 +235,25 @@ class GameView{
         }
     }
 
-    reset(){
-        // this.bgm.stop();
-        this.gameEndHeight = this.maxHeight;
-        if(this.guy.dead === "drowned"){
-            this.waterSound.play();
-        }else if(this.guy.dead === "crushed"){this.crushSound.play();}
+    handleDeath(){
+    this.gameEndHeight = Math.floor(this.game.maxHeight/ 10);
 
+    if (this.guy.dead === "drowned") {
+        this.waterSound.play();
+    } else if (this.guy.dead === "crushed") { this.crushSound.play(); }
+
+    this.bgm.pause();
+    this.openMenu();
+    }
+
+    reset(){
         this.guy = this.game.reset();
         this.colorChangeCurrent = this.colorChangeHeight;
         this.bgcolor = '#FFA500';
+        this.closeMenu();
         this.bgm.currentTime = 0;
         this.bgm.play();
+        this.paused = false;
     }
 
 
@@ -239,7 +271,7 @@ class GameView{
         this.ctx.rotate(this.guy.vel.x * 2 * Math.PI / 180);
         } else {
             this.ctx.rotate(this.guy.wallcling * 12 * Math.PI / 180);
-}
+    }
 
 
 
@@ -325,7 +357,6 @@ class GameView{
 
     start(){
         this.bindkeys();
-        this.bgm.play();
         this.update(0);
     }
 
@@ -333,13 +364,14 @@ class GameView{
     update(timestamp) {
         const dt = (timestamp - this.lastUpdated) / 10;
         this.handleKeys();
+        if (this.paused !== true) {
         this.game.step(timestamp, dt);
         if(this.guy.dead){
-                this.bgm.pause();
-                this.reset();
+                this.handleDeath();
         }
         this.draw();
-        this.lastUpdated = timestamp;
+        this.lastUpdated = timestamp;}
+
         requestAnimationFrame(this.update.bind(this));
     }
 }
