@@ -137,12 +137,20 @@ class GameView{
                 gameview.keys[39] = false;
                 gameview.keys[37] = false;
             });
+
+            const menu = document.getElementById("menu");
+            menu.addEventListener("touchend", (e) => {
+                this.bgm.play();
+                gameview.keys[13] = true;
+            });
+
         }
     }
 
     openMenu() {
         this.paused = true;
-        const canvas = document.getElementById("game");
+        let canvas = document.getElementById("game");
+        if (!canvas) { canvas = document.getElementById("mobilegame");}
         const menu = document.getElementById("menu");
         canvas.style.display = "none";
         menu.style.display = "flex";
@@ -157,7 +165,8 @@ class GameView{
     }
 
     closeMenu(){
-        const canvas = document.getElementById("game");
+        let canvas = document.getElementById("game");
+        if (!canvas) { canvas = document.getElementById("mobilegame"); }
         const menu = document.getElementById("menu");
         menu.style.display = "none";
         canvas.style.display = "block";
@@ -166,6 +175,7 @@ class GameView{
 
 
     jump(){
+        if(this.game.paused){return;}
         if (this.guy.wallcling !== 0 && this.guy.airborne === true && this.tooSoon === false) {
 
             this.jumpSound2.play();
@@ -220,6 +230,7 @@ class GameView{
 
         if (this.keys[13]){
             this.reset();
+            this.keys[13] = false;
         }
         if(this.keys[77]){
             if(this.tooSoonMute === false){

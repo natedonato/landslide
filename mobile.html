@@ -12,9 +12,21 @@
 </head>
 
 <body class="body">
+
+   
     <div class="mobile-height">
-        <canvas id="mobilegame" style="border:1px solid black; width: 100%;"></canvas>
-    
+        <canvas id="mobilegame" style="border:1px solid black; width: 100%; display: none;"></canvas>
+        <div id="menu" style="width: 640px; height: 700px; width: 100%">
+            <h1>
+                You climbed <span id="height"> </span>
+            </h1>
+            <h4 id="death-info">
+            </h4>
+            <h2>
+                tap HERE to play again
+            </h2>
+        </div>
+
         <div class="button-container">
             <!-- <div id="joypad">
                 <div class="joypad-display"></div>
