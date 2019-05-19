@@ -53,12 +53,24 @@ class GameView{
 
         let jumpbutton = document.getElementById('jump-button');
         if (jumpbutton !== null) {
-            jumpbutton.addEventListener("touchstart", () => {
-                gameview.keys[32] = true;
+            jumpbutton.addEventListener("touchstart", (e) => {
+                e.preventDefault();
+                gameview.keys.jump = true;
             });
-            jumpbutton.addEventListener("touchend", () => {
-                gameview.keys[32] = false;
+            let left = document.getElementById('left');
+            left.addEventListener("touchstart", (e) => {
+                e.preventDefault();
+                gameview.keys[37] = true;
             });
+            left.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                gameview.keys[37] = false;
+            });
+            left.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                gameview.keys[37] = false;
+            });
+            
         }
     }
 
@@ -98,6 +110,11 @@ class GameView{
     }
 
     handleKeys (){
+        if(this.keys.jump){
+            this.jump();
+            this.keys.jump = false;
+        }
+
         if (this.keys[38] || this.keys[32]) {   
             this.jump();
         }

@@ -1,4 +1,10 @@
 
+.hover {
+-webkit-user-select: none;
+-webkit-touch-callout: none;        
+}
+
+
 html, body {
   height: 100%;
   width: 100%;
@@ -45,4 +51,51 @@ html, body {
   text-align: center;
   font-size: 50px;
   color: white;
+}
+
+.button-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row-reverse;
+  
+}
+
+#jump-button{
+  width: calc(100% / 3);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-right: 10px;
+}
+
+.jump-display{
+  width: 100%;
+  padding-bottom: 100%;
+  border-radius: 100%;
+  background-color: red;
+  border: 1px solid white;
+  position: relative;
+}
+
+.jump-text{
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}
+
+#left{  
+  width: calc(100% / 3);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-right: 10px;
 }
