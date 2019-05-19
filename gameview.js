@@ -271,14 +271,14 @@ class GameView{
     drawRocks(){
         this.game.rocks.forEach(rock => {
             this.ctx.fillStyle = this.rockcolor;
-            this.ctx.fillRect(rock.pos.x, rock.pos.y, rock.width, rock.height);
+            this.ctx.fillRect(rock.pos.x, rock.pos.y, rock.width, rock.height + 1);
             this.ctx.fillStyle = this.bgcolor;
             this.ctx.beginPath();
             this.ctx.arc(rock.pos.x + (rock.width / 2), rock.pos.y + (rock.width / 2), rock.width / 2 * 0.7, 0, 2 * Math.PI);
             this.ctx.fill();
         }
         );
-    };
+    }
 
     drawWater(){
         this.ctx.globalAlpha = 0.5;
