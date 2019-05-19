@@ -66,10 +66,6 @@ class GameView{
                 e.preventDefault();
                 gameview.keys[37] = false;
             });
-            left.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                gameview.keys[37] = false;
-            });
             
         }
     }
