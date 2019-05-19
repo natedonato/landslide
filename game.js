@@ -165,7 +165,7 @@ class Game {
     }
 
     updateWaterPos(dt){
-        if (Math.floor(this.maxHeight / 10) < 100){
+        if (Math.floor(this.maxHeight / 10) < 150){
             this.water.y -= this.water.speed * dt / 2;
         }else{
             this.water.y -= this.water.speed * dt;

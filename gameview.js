@@ -31,7 +31,7 @@ class GameView{
         this.rockcolor = '#000000';
         this.playercolor = "#ff1919";
         this.watercolor = 'blue';
-        this.colorChangeHeight = 300;
+        this.colorChangeHeight = 500;
 
         //initial background fill
         this.colorChangeCurrent = this.colorChangeHeight;
