@@ -15,7 +15,7 @@ class Game {
         this.maxSize = 180;
         this.maxX = canvaswidth;
         this.rockInterval = 1000;
-        this.lastRock = this.rockInterval;
+        this.lastRock = this.rockInterval * 2;
         this.rockAvgSpeed = 2;
         this.rockSpeedVariation = 0.5;
 
@@ -53,12 +53,22 @@ class Game {
     }
 
     rockGenerator(timestamp){
-
-        if (timestamp - this.lastRock > this.rockInterval) {
-            this.lastRock = timestamp -this.rockInterval / 8 + Math.random() * this.rockInterval / 4;
-            this.addRock(Rock.generate(this.minSize, this.maxSize, this.maxrockheight, this.maxX, this.rockAvgSpeed, this.rockSpeedVariation));
+        let rockGenerateHeight = this.maxrockheight;
+        if (this.maxHeight + this.canvasheight > this.maxrockheight) {
+            rockGenerateHeight = this.maxHeight + this.canvasheight;
         }
-        
+
+        //makes less rocks if just starting
+        if (Math.floor(this.maxHeight / 10) < 100) {
+            if (timestamp - this.lastRock > this.rockInterval * 2) {
+                this.lastRock = timestamp - this.rockInterval / 8 + Math.random() * this.rockInterval / 4;
+                this.addRock(Rock.generate(this.minSize, this.maxSize, rockGenerateHeight, this.maxX, this.rockAvgSpeed * 3 / 4, this.rockSpeedVariation));
+            }
+
+        }else if (timestamp - this.lastRock > this.rockInterval) {
+            this.lastRock = timestamp -this.rockInterval / 8 + Math.random() * this.rockInterval / 4;
+            this.addRock(Rock.generate(this.minSize, this.maxSize, rockGenerateHeight, this.maxX, this.rockAvgSpeed, this.rockSpeedVariation));
+        }
     }
 
     checkRockCollision(rock1, rock2) {
@@ -155,9 +165,16 @@ class Game {
     }
 
     updateWaterPos(dt){
-        this.water.y -= this.water.speed * dt;
-        if (this.water.y - this.guy.pos.y > 700)
-            {this.water.y -= this.water.speed * dt / 2;}
+        if (Math.floor(this.maxHeight / 10) < 100){
+            this.water.y -= this.water.speed * dt / 2;
+        }else{
+            this.water.y -= this.water.speed * dt;
+            if (this.water.y - this.guy.pos.y > 700)
+                {this.water.y -= this.water.speed * dt / 2;
+            }
+            if(this.water.y - this.maxrockheight > 1000)
+                {this.water.y -= this.water.speed * dt;}
+        }
         this.checkWaterCollision();
     }
 
@@ -213,9 +230,6 @@ class Game {
         // & pushes rock generator upwards if this.guy is hella high up
         this.currHeight = (500 - this.guy.pos.y - this.guy.height);
         if (this.currHeight > this.maxHeight) { this.maxHeight = this.currHeight; }
-        if (this.currHeight + this.canvasheight > this.maxrockheight) {
-            this.maxrockheight = this.currHeight + this.canvasheight;
-        }
         this.guy.wallcling = 0;
     }
 
