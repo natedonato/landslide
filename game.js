@@ -17,7 +17,7 @@ class Game {
         this.rockInterval = 1000;
         this.lastRock = this.rockInterval;
         this.rockAvgSpeed = 2;
-        this.rockSpeedVariation = 0.4;
+        this.rockSpeedVariation = 0.5;
 
         //water related options can be set here
         this.water = {x: 0, 
@@ -55,7 +55,7 @@ class Game {
     rockGenerator(timestamp){
 
         if (timestamp - this.lastRock > this.rockInterval) {
-            this.lastRock = timestamp -this.rockInterval / 10 + Math.random() * this.rockInterval / 5;
+            this.lastRock = timestamp -this.rockInterval / 8 + Math.random() * this.rockInterval / 4;
             this.addRock(Rock.generate(this.minSize, this.maxSize, this.maxrockheight, this.maxX, this.rockAvgSpeed, this.rockSpeedVariation));
         }
         

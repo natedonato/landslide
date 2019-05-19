@@ -17,7 +17,24 @@
 <body class="body">
 
     <div class="full-height">
-    <canvas id="game" style="border:1px solid black"></canvas>
+
+    <div id="menu" > 
+        <h1>
+            You climbed <span id="height"> </span>
+        </h1>
+
+        <h4 id="death-info">
+        </h4>
+
+        <h2>
+            press ENTER to play again
+        </h2>
+
+    </div>
+
+
+
+    <canvas id="game" style="border:1px solid black; display: none;"></canvas>
     <p style="width: 600px; text-align: center; color: white"> Arrow Left/Right: Move | Arrow Up / Space: Jump | Enter: Restart | M: Mute Music 
         <br /> You can jump off the sides of blocks, as well as wrap around the edges of the screen.  <br/>Use these advanced tactics to avoid getting stuck as you climb as high as possible!</p>
     </div>

@@ -11,8 +11,8 @@ class Guy{
             y: 5,
         };
 
-        this.width = 22;
-        this.height = 32;
+        this.width = 28;
+        this.height = 42;
         this.maxspeed = guyspeed;
         this.jumps = 0;
         this.airborne = true;

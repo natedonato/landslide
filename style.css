@@ -138,3 +138,20 @@ html, body {
   border: 1px solid white;
   position: relative;
 }
+
+#menu{
+  
+color: white;
+width: 640px; 
+height: 500px; 
+background-color: black;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+
+}
+
+#menu > * {
+  margin: 5px;
+}
