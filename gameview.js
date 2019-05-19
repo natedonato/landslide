@@ -95,6 +95,7 @@ class GameView{
             left.addEventListener("touchstart", (e) => {
                 e.preventDefault();
                 gameview.keys[37] = true;
+                if(gameview.keys[39] === true){ gameview.keys.jump = true;}
             });
 
             let leftx = left.getClientRects()[0].right;
@@ -118,6 +119,7 @@ class GameView{
                 // touchStartR = e.changedTouches[0].clientX;
                 e.preventDefault();
                 gameview.keys[39] = true;
+                if (gameview.keys[37] === true) { gameview.keys.jump = true; }
             });
 
             right.addEventListener('touchmove', (e) => {
