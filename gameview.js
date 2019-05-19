@@ -57,55 +57,87 @@ class GameView{
                 e.preventDefault();
                 gameview.keys.jump = true;
             });
-            let left = document.getElementById('left');
-            let right = document.getElementById('right');
-            left.addEventListener("touchstart", (e) => {
-                e.preventDefault();
-                gameview.keys[37] = true;
-            });
+
             
-            let leftx = left.getClientRects()[0].right;
-            left.addEventListener('touchmove', (e) => {
-                let touchCurrentL = e.changedTouches[0].clientX;
-                if (touchCurrentL > leftx) {
-                    gameview.keys[39] = true;
-                    gameview.keys[37] = false;
-                } else {
+            let joypad = document.getElementById('joypad');
+            let touchStartX;
+            
+            joypad.addEventListener("touchstart", (e) => {   
+                touchStartX = e.changedTouches[0].clientX;
+                e.preventDefault();
+            });
+
+            joypad.addEventListener('touchmove', (e) => {
+                let touchCurrentX = e.changedTouches[0].clientX;
+                if (touchCurrentX < touchStartX - 30 ) {
                     gameview.keys[39] = false;
                     gameview.keys[37] = true;
-                }
-            });
-
-            left.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                gameview.keys[39] = false;
-                gameview.keys[37] = false;
-            });
-
-            let rightx = right.getClientRects()[0].left;
-            right.addEventListener("touchstart", (e) => {   
-                // touchStartR = e.changedTouches[0].clientX;
-                e.preventDefault();
-                gameview.keys[39] = true;
-            });
-
-            right.addEventListener('touchmove', (e) => {
-                let touchCurrentR = e.changedTouches[0].clientX;
-                if (touchCurrentR < rightx ) {
-                    gameview.keys[39] = false;
-                    gameview.keys[37] = true;
-                }else{
+                } else if (touchCurrentX > touchStartX + 30 ){
                     gameview.keys[39] = true;
                     gameview.keys[37] = false; 
+                } else{
+                    gameview.keys[39] = false;
+                    gameview.keys[37] = false;     
                 }
             });
 
-            right.addEventListener('touchend', (e) => {
+            joypad.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 gameview.keys[39] = false;
                 gameview.keys[37] = false;
             });
-            
+
+
+
+            // let left = document.getElementById('left');
+            // let right = document.getElementById('right');
+            // left.addEventListener("touchstart", (e) => {
+            //     e.preventDefault();
+            //     gameview.keys[37] = true;
+            // });
+
+            // let leftx = left.getClientRects()[0].right;
+            // left.addEventListener('touchmove', (e) => {
+            //     let touchCurrentL = e.changedTouches[0].clientX;
+            //     if (touchCurrentL > leftx) {
+            //         gameview.keys[39] = true;
+            //         gameview.keys[37] = false;
+            //     } else {
+            //         gameview.keys[39] = false;
+            //         gameview.keys[37] = true;
+            //     }
+            // });
+
+            // left.addEventListener('touchend', (e) => {
+            //     e.preventDefault();
+            //     gameview.keys[39] = false;
+            //     gameview.keys[37] = false;
+            // });
+
+            // let rightx = right.getClientRects()[0].left;
+            // right.addEventListener("touchstart", (e) => {   
+            //     // touchStartR = e.changedTouches[0].clientX;
+            //     e.preventDefault();
+            //     gameview.keys[39] = true;
+            // });
+
+            // right.addEventListener('touchmove', (e) => {
+            //     let touchCurrentR = e.changedTouches[0].clientX;
+            //     if (touchCurrentR < rightx ) {
+            //         gameview.keys[39] = false;
+            //         gameview.keys[37] = true;
+            //     }else{
+            //         gameview.keys[39] = true;
+            //         gameview.keys[37] = false; 
+            //     }
+            // });
+
+            // right.addEventListener('touchend', (e) => {
+            //     e.preventDefault();
+            //     gameview.keys[39] = false;
+            //     gameview.keys[37] = false;
+            // });
+    
         }
     }
 
