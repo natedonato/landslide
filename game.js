@@ -132,7 +132,6 @@ class Game {
                     collisionSide = "bottom";
                 
                     if (!this.guy.airborne && rock.falling) {
-                        console.log("dead");
                         this.guy.dead = "crushed";
                     }
                     if (this.guy.pos.y + offsety >= this.canvasheight - this.guy.height) { this.guy.pos.y = this.canvasheight - this.guy.height; }

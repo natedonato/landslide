@@ -42,11 +42,14 @@ class GameView{
     bindkeys(){
 
         let gameview = this;
-
+        let canvas = document.getElementById("canvas");
         window.addEventListener("keydown", function (e) {
-            e.preventDefault();
+            if (e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40 || e.keyCode === 13) {
+                e.preventDefault();
+            }
             gameview.keys[e.keyCode] = true;
         });
+
         window.addEventListener("keyup", function (e) {
             gameview.keys[e.keyCode] = false;
         });
@@ -147,6 +150,22 @@ class GameView{
         }
     }
 
+    openLeaderBoard(){
+        this.leaderboard = true;
+        fetchScores();
+        const menu = document.getElementById("menu");
+        const leaderboard = document.getElementById("leaderboard");
+        menu.style.display = "none";
+        leaderboard.style.display = "flex";
+        const button = document.getElementById("submit");
+        let height = this.gameEndHeight
+        button.addEventListener("click", (e) =>{
+            name = document.getElementById("name");
+            fetchPost(name.value, height);
+            
+        });
+    }
+
     openMenu() {
         this.paused = true;
         let canvas = document.getElementById("game");
@@ -158,10 +177,12 @@ class GameView{
         const deathinfo = document.getElementById("death-info");
         height.innerHTML = String(this.gameEndHeight) + ' ft';
         if(this.guy.dead === "crushed"){
+            this.openLeaderBoard();
             deathinfo.innerHTML = "(then you were crushed by a falling block)";
         }else if(this.guy.dead === "drowned"){
             deathinfo.innerHTML = "(then you fell into the water and drowned)";
         }
+        
     }
 
     closeMenu(){
@@ -374,7 +395,8 @@ class GameView{
 
     update(timestamp) {
         const dt = (timestamp - this.lastUpdated) / 10;
-        this.handleKeys();
+        if(this.leaderboard !== true){
+        this.handleKeys();}
         if (this.paused !== true) {
         this.game.step(timestamp, dt);
         if(this.guy.dead){

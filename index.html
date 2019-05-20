@@ -22,17 +22,28 @@
         <h1>
             You climbed <span id="height"> </span>
         </h1>
-
         <h4 id="death-info">
         </h4>
-
         <h2>
             press ENTER to play again
         </h2>
-
     </div>
 
-
+    <div id="leaderboard">
+        <table>
+            <thead>
+                <tr>
+                    <th>Score</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="table">
+            </tbody>
+        </table>
+        <input type="text" id="name"/>
+        <button id="submit" > Submit Score </button>
+    </div>
 
     <canvas id="game" style="border:1px solid black; display: none;"></canvas>
     <p style="width: 600px; text-align: center; color: white; background-color: rgba(0,0,0,.5); "> 
@@ -44,6 +55,10 @@
         </p>
         
     </div>
+
+
+
+
     <script src="./bundle.js">
     </script>
 
