@@ -8,7 +8,7 @@ router.get('/test', (req, res) => {
 
 router.get('/', (req, res) => {
     Score.find()
-    .sort({ score: -1 })
+    .sort({ score: -1, date: -1 })
     .limit(10)
     .then(scores => res.json(scores))
     .catch(err => res.status(404).json({ noScoresFound: 'No scores found' }));
