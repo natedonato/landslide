@@ -157,6 +157,22 @@ flex-direction: column;
   text-align: center;
 }
 
+#splash 
+{color: white;
+width: 640px; 
+height: 500px; 
+background-color: black;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+}
+
+#splash > * {
+  margin: 5px;
+  text-align: center;
+}
+
 #leaderboard{
 color: white;
 width: 640px; 
@@ -167,3 +183,29 @@ justify-content: center;
 align-items: center;
 flex-direction: column;
 }
+
+table{
+  width: 420px;
+}
+
+td{
+  text-align: center;
+}
+
+tr{
+  width: 33%;
+}
+
+#post-form > * {
+  width: 100px;
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
+#close{
+    color: orange;
+    margin-top: 20px;
+    width: 420px;
+    text-align: center;
+    cursor: pointer;
+  }

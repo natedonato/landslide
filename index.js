@@ -30,7 +30,6 @@ fetchScores = (newScore) => {
         )
         .then( response => {
             let scores = (response);
-            debugger;
             if(newScore && newScore.score < scores[scores.length-1].score && scores.length === 10){
             scores = scores.concat(newScore);}
             let tableEntries = "";

@@ -18,7 +18,12 @@
 
     <div class="full-height">
 
-    <div id="menu" > 
+    <div id="splash">
+        <h1>LANDSLIDE.js</h1>
+        <h2>press ENTER to play</h2>
+    </div>
+
+    <div id="menu" style="display: none;"> 
         <h1>
             You climbed <span id="height"> </span>
         </h1>
@@ -41,22 +46,29 @@
             </thead>
             <tbody id="table">
             </tbody>
-        </table>
-        <div id="post-form">
-        <input type="text" id="name"/>
-        <button id="submit" > Submit Score </button>
+            <tfoot>
+                <tr class="post-form" style="height: 20px;"></tr>
+                <tr class="post-form">
+                <th id="currscore">SUBMIT</th>
+                <th><input type="text" id="name" placeholder="enter name" maxlength="10" style="width: 100px"/></th>
+                <th><button id="submit"> Submit </button></th>
+                </tr>
+                <tr style="height: 20px;"></tr>
+                <tr><th></th> <th id="close">RETURN TO MENU </th> <th></th></tr>
 
-        <div id = "close">RETURN TO MENU</div>
-        </div>
+            </tfoot>
+        </table>
+
     </div>
 
     <canvas id="game" style="border:1px solid black; display: none;"></canvas>
     <p style="width: 600px; text-align: center; color: white; background-color: rgba(0,0,0,.5); "> 
         Arrow Left/Right: Move | Arrow Up / Space: Jump | Enter: Restart | M: Mute Music <br />You can jump off the sides of blocks, as well as wrap around the edges of the screen. 
-         <!-- <br/>Use both these advanced tactics to avoid getting stuck as you climb as high as possible. --> <br/> Players will need both skill and some luck if they wish to be top of the leaderboards!! <br> View the game on <a href="https://github.com/natedonato/landslide" 
+         <!-- <br/>Use both these advanced tactics to avoid getting stuck as you climb as high as possible. --> <br/> Players will need both skill and some luck if they wish to be top of the leaderboards!! 
+         <br> View the game on <a href="https://github.com/natedonato/landslide" 
         style="text-decoration: none; color: orange"> 
         github </a> 
-        for more info.  -Nate Donato™ 2019
+        for more info &nbsp &nbsp &nbsp  -Nate Donato™ 2019
         </p>
         
     </div>

@@ -155,15 +155,23 @@ class GameView{
         fetchScores();
         const menu = document.getElementById("menu");
         const leaderboard = document.getElementById("leaderboard");
-        document.getElementById("post-form").style.display = "block";
+        const form = document.getElementsByClassName("post-form");
+        
+        for (let i = 0; i <form.length; i++) {
+            form[i].style.display = "table-row";
+        }
+
         menu.style.display = "none";
         leaderboard.style.display = "flex";
+        let height = this.gameEndHeight;
+        document.getElementById("currscore").innerHTML= height;
         const button = document.getElementById("submit");
         const closebutton = document.getElementById("close");
-        let height = this.gameEndHeight
         button.addEventListener("click", (e) =>{
             let name = document.getElementById("name").value;
-            document.getElementById("post-form").style.display = "none";
+            for (let i = 0; i < form.length; i++) {
+                form[i].style.display = "none";
+            }
             fetchPost(name, height);
         });
         closebutton.addEventListener("click", (e) => {
@@ -194,7 +202,9 @@ class GameView{
         let canvas = document.getElementById("game");
         if (!canvas) { canvas = document.getElementById("mobilegame"); }
         const menu = document.getElementById("menu");
+        const splash = document.getElementById("splash");
         menu.style.display = "none";
+        splash.style.display = "none";
         canvas.style.display = "block";
         this.paused = false;
     }
