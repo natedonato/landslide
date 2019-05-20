@@ -1,6 +1,6 @@
 
 * LANDSLIDE
-[LIVE DEMO](https://www.landslidejs.herokuapp.com)
+[LIVE DEMO](https://landslidejs.herokuapp.com/) 
 
     * Randomly generated content and basic platforming physics
     * Player can run left and right, jump, and walljump off obstacles
