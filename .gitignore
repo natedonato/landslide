@@ -1,2 +1,5 @@
 /node_modules/
 bundle.js
+/config/
+/config/keys.js
+keys.js

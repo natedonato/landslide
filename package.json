@@ -4,15 +4,20 @@
   "description": "* LANDSLIDE * Background and Overview (Game based off http://www.avalanchegame.org/)     * Create a simple yet addicting game, with randomly / procedurally generated content and basic platforming  physics     * Player can run left and right, as well as jump     * Squares of different sizes fall randomly from sky and stack up for player to jump off     * Water slowly rises from bottom that kills player",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.0",
+    "mongoose": "^5.5.9",
+    "validator": "^10.11.0",
     "webpack": "^4.31.0"
   },
   "devDependencies": {
+    "nodemon": "^1.19.0",
     "webpack-cli": "^3.3.2"
   },
   "scripts": {
     "dev": "webpack --watch --mode=development",
-    "start": "node server.js", 
+    "start": "node server.js",
+    "server": "nodemon server.js",
     "heroku-postbuild": "webpack -p"
   },
   "repository": {
