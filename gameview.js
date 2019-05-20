@@ -21,6 +21,7 @@ class GameView{
         this.bgm = new Audio('./soundfx/Fantasies_of_Yonder.mp3');
         this.bgm.volume = 0.35;
         this.bgm.loop = true;
+        this.gameEndHeight = 0;
 
         //for throttling key presses
         this.tooSoon = false;
@@ -146,7 +147,6 @@ class GameView{
                 this.bgm.play();
                 gameview.keys[13] = true;
             });
-
         }
     }
 
@@ -155,14 +155,21 @@ class GameView{
         fetchScores();
         const menu = document.getElementById("menu");
         const leaderboard = document.getElementById("leaderboard");
+        document.getElementById("post-form").style.display = "block";
         menu.style.display = "none";
         leaderboard.style.display = "flex";
         const button = document.getElementById("submit");
+        const closebutton = document.getElementById("close");
         let height = this.gameEndHeight
         button.addEventListener("click", (e) =>{
-            name = document.getElementById("name");
-            fetchPost(name.value, height);
-            
+            let name = document.getElementById("name").value;
+            document.getElementById("post-form").style.display = "none";
+            fetchPost(name, height);
+        });
+        closebutton.addEventListener("click", (e) => {
+            menu.style.display = "flex";
+            leaderboard.style.display = "none";
+            this.leaderboard = false;
         });
     }
 
@@ -177,12 +184,10 @@ class GameView{
         const deathinfo = document.getElementById("death-info");
         height.innerHTML = String(this.gameEndHeight) + ' ft';
         if(this.guy.dead === "crushed"){
-            this.openLeaderBoard();
             deathinfo.innerHTML = "(then you were crushed by a falling block)";
         }else if(this.guy.dead === "drowned"){
             deathinfo.innerHTML = "(then you fell into the water and drowned)";
         }
-        
     }
 
     closeMenu(){
@@ -253,6 +258,10 @@ class GameView{
             this.reset();
             this.keys[13] = false;
         }
+        if(this.keys[76] && this.paused){
+            this.openLeaderBoard();
+        }
+
         if(this.keys[77]){
             if(this.tooSoonMute === false){
 
@@ -403,8 +412,8 @@ class GameView{
                 this.handleDeath();
         }
         this.draw();
-        this.lastUpdated = timestamp;}
-
+        }
+        this.lastUpdated = timestamp;
         requestAnimationFrame(this.update.bind(this));
     }
 }

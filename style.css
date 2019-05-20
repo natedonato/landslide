@@ -154,4 +154,16 @@ flex-direction: column;
 
 #menu > * {
   margin: 5px;
+  text-align: center;
+}
+
+#leaderboard{
+color: white;
+width: 640px; 
+height: 500px; 
+background-color: black;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
 }

@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
         if(s){
             return res.status(409).json({score: "This score has already been posted"});
         }else{
-            new Score({
+            newScore = new Score({
                 score: req.body.score,
                 name: req.body.name
             }).save()

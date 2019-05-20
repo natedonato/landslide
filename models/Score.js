@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ScoreSchema = new Schema({
     name: {
         type: String,
-        required: true
+        default: "Anonymous"
     },
     score: {
         type: Number,

@@ -23,20 +23,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-fetchScores = () => {
+fetchScores = (newScore) => {
     document.getElementById('table').innerHTML = "<tr>LOADING SCORES...</tr>";
     fetch('/api/scores').then(res =>
             res.json()
         )
         .then( response => {
             let scores = (response);
-            console.log(scores);
+            debugger;
+            if(newScore && newScore.score < scores[scores.length-1].score && scores.length === 10){
+            scores = scores.concat(newScore);}
             let tableEntries = "";
             scores.forEach(score => {
                 let date = new Date(score.date)
                 date = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
-
-                tableEntries += ' <tr><td>' + score.score + '</td><td>' + score.name + '</td><td>' + date + '</td></tr>'
+                if(newScore && score._id === newScore._id){
+                    tableEntries += ' <tr style="color: orange;" ><td>' + score.score + '</td><td>' + score.name + '</td><td>' + date + '</td></tr>';
+                } else{
+                tableEntries += ' <tr><td>' + score.score + '</td><td>' + score.name + '</td><td>' + date + '</td></tr>'}
             });
             document.getElementById('table').innerHTML = tableEntries;
         });
@@ -47,9 +51,11 @@ fetchPost = (name, score) => {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({name: name, score: score})
-    }).then(()=> {
-        console.log("posted");
-        fetchScores();
-    }
+    }).then(res =>
+        res.json()
+    ).then(
+        (newScore)=> {
+        fetchScores(newScore);
+        }
     );
 };

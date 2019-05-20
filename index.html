@@ -27,9 +27,10 @@
         <h2>
             press ENTER to play again
         </h2>
+        <h4 style="color: orange"> or press L to view the leaderboards<br> & submit your most recent score</h3>
     </div>
 
-    <div id="leaderboard">
+    <div id="leaderboard" style="display: none;">
         <table>
             <thead>
                 <tr>
@@ -41,8 +42,12 @@
             <tbody id="table">
             </tbody>
         </table>
+        <div id="post-form">
         <input type="text" id="name"/>
         <button id="submit" > Submit Score </button>
+
+        <div id = "close">RETURN TO MENU</div>
+        </div>
     </div>
 
     <canvas id="game" style="border:1px solid black; display: none;"></canvas>
