@@ -18,7 +18,6 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     Score.findOne({score: req.body.score, name: req.body.name})
     .then(s => {
-        
         if(s){
             return res.status(409).json({score: "This score has already been posted"});
         }else{

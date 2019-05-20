@@ -142,8 +142,17 @@ class GameView{
                 gameview.keys[37] = false;
             });
 
+            const title = document.getElementById("splash");
+
+            title.addEventListener("touchend", (e) => {
+                this.closeMenu();
+                this.bgm.play();
+                gameview.keys[13] = true;
+            });
+
             const menu = document.getElementById("menu");
             menu.addEventListener("touchend", (e) => {
+                this.closeMenu();
                 this.bgm.play();
                 gameview.keys[13] = true;
             });
