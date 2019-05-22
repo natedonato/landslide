@@ -193,9 +193,8 @@ class GameView{
     openMenu() {
         this.paused = true;
         let canvas = document.getElementById("game");
-        if (!canvas) { canvas = document.getElementById("mobilegame");}
+        if (canvas) {canvas.style.display = "none";}
         const menu = document.getElementById("menu");
-        canvas.style.display = "none";
         menu.style.display = "flex";
         const height = document.getElementById("height");
         const deathinfo = document.getElementById("death-info");
@@ -261,15 +260,15 @@ class GameView{
             this.keys.jump = false;
         }
 
-        if (this.keys[38] || this.keys[32]) {   
+        if (this.keys[38] || this.keys[32] || this.keys[87]) {   
             this.jump();
         }
 
-        if (this.keys[39]) {
+        if (this.keys[39] || this.keys[68]) {
             this.moveRight();
         }
 
-        if (this.keys[37]) {
+        if (this.keys[37] || this.keys[65]) {
             this.moveLeft();
         }
 

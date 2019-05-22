@@ -209,3 +209,12 @@ tr{
     text-align: center;
     cursor: pointer;
   }
+
+
+  p{ 
+    width: 600px;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    background-color: rgba(0,0,0,.65);
+    padding: 12px 0px;}
