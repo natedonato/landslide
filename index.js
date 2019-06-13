@@ -51,7 +51,7 @@ fetchPost = (name, score) => {
     fetch("/api/scores", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({name: name, score: score, secretKey: secretKey})
+        body: JSON.stringify({ name: name, score: score, secretKey: process.env.SECRET_KEY})
     }).then(res =>
         res.json()
     ).then(
