@@ -1,9 +1,6 @@
 const Game = require("./game");
 const GameView = require("./gameview");
-const secretKey = require('./config/keys').secretKey;
-const db = require('./config/keys').mongoURI;
-console.log(secretKey);
-console.log(db);
+const secretKey = process.env.SECRET_KEY;
 
 document.addEventListener("DOMContentLoaded", () => {
     
@@ -53,7 +50,7 @@ fetchPost = (name, score) => {
     fetch("/api/scores", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, score: score, secretKey: process.env.SECRET_KEY})
+        body: JSON.stringify({ name: name, score: score, secretKey: "LC2crxs6iMZHNw9yUpyy"})
     }).then(res =>
         res.json()
     ).then(
