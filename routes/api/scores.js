@@ -14,6 +14,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     if(req.body.secretKey != secretKey){
+        console.log(req.body.secretKey);
         return res.status(403).json({score: "Please do not post fake scores, this is a personal project being shown to potential employers!"});
     }
     Score.findOne({score: req.body.score, name: req.body.name})
