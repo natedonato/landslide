@@ -1,6 +1,7 @@
 const Game = require("./game");
 const GameView = require("./gameview");
 const secretKey = require('./config/keys').secretKey;
+console.log(secretKey);
 
 document.addEventListener("DOMContentLoaded", () => {
     
