@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Score = require('../../models/Score');
+const secretKey = require('../../config/keys').secretKey;
+
 
 router.get('/', (req, res) => {
     Score.find()
@@ -11,6 +13,9 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+    if(req.body.secretKey != secretKey){
+        return res.status(403).json({score: "Please do not post fake scores, this is a personal project being shown to potential employers!"});
+    }
     Score.findOne({score: req.body.score, name: req.body.name})
     .then(s => {
         if(s){
@@ -25,6 +30,7 @@ router.post('/', (req, res) => {
         }
     });
 });
+
 
 
 module.exports = router;

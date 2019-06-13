@@ -1,5 +1,6 @@
 const Game = require("./game");
 const GameView = require("./gameview");
+const secretKey = require('./config/keys').secretKey;
 
 document.addEventListener("DOMContentLoaded", () => {
     
@@ -49,7 +50,7 @@ fetchPost = (name, score) => {
     fetch("/api/scores", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({name: name, score: score})
+        body: JSON.stringify({name: name, score: score, secretKey: secretKey})
     }).then(res =>
         res.json()
     ).then(
