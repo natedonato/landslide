@@ -1,7 +1,9 @@
 const Game = require("./game");
 const GameView = require("./gameview");
 const secretKey = require('./config/keys').secretKey;
+const db = require('./config/keys').mongoURI;
 console.log(secretKey);
+console.log(db);
 
 document.addEventListener("DOMContentLoaded", () => {
     
