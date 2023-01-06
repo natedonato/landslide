@@ -6,7 +6,7 @@ const path = require('path');
 const scores = require('./routes/api/scores');
 const port = process.env.PORT || 8080;
 const app = express();
-const db = require('./config/keys').mongoURI;
+const db = process.env.MONGO_URI
 
 mongoose
     .connect(db, { useNewUrlParser: true })
