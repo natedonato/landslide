@@ -17,7 +17,7 @@ app.use(express.static(__dirname));
 
 app.use(
   cors({
-    origin: "https://natedonato.com",
+    origin: "https://www.natedonato.com",
   })
 );
 
