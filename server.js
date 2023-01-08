@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
+const cors = require("cors");
 const path = require('path');
 const scores = require('./routes/api/scores');
 const port = process.env.PORT || 8080;
@@ -14,6 +14,12 @@ mongoose
     .catch(err => console.log(err));
 
 app.use(express.static(__dirname));
+
+app.use(
+  cors({
+    origin: "https://natedonato.com",
+  })
+);
 
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'index.html'));
